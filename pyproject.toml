@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-line-counter"
+description = "Custom node to count the number of lines in a text file"
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/ChrisColeTech/ComfyUI-Line-counter"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-Line-counter"
+Icon = ""
