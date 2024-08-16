@@ -1,6 +1,6 @@
 ## ComfyUI Line Counter 🎯
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/ChrisColeTech/ComfyUI-Line-counter/ci.yml?branch=main&label=Build%20Status)](https://github.com/ChrisColeTech/ComfyUI-Line-counter/actions) <!-- Replace this URL with your actual build status badge URL -->
+[![Build Status](https://img.shields.io/github/actions/workflow/status/ChrisColeTech/ComfyUI-Line-counter/publish.yml?branch=main&label=Build%20Status)](https://github.com/ChrisColeTech/ComfyUI-Line-counter/actions) <!-- Replace this URL with your actual build status badge URL -->
 
 ## 🚀 Overview
 
