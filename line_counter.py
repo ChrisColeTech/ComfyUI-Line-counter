@@ -18,6 +18,9 @@ class DirectoryFileCounter():
     CATEGORY = "CCTech/Files"
     
     def execute_file_counter(self, directory_path: str) -> dict:
+        # Expand environment variables in the directory path
+        directory_path = os.path.expandvars(directory_path)
+        
         if not os.path.isdir(directory_path):
             raise FileNotFoundError(f"The path '{directory_path}' does not exist.")
 
@@ -49,6 +52,9 @@ class TextFileLineCounter():
     CATEGORY = "CCTech/Files"
     
     def execute_line_counter(self, file_path: str) -> dict:
+        # Expand environment variables in the file path
+        file_path = os.path.expandvars(file_path)
+        
         if not os.path.isfile(file_path):
             raise FileNotFoundError(f"The file at path '{file_path}' does not exist.")
         with open(file_path, 'r', encoding='utf-8') as file:
