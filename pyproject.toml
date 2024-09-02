@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-line-counter"
 description = "This custom node package for ComfyUI is designed to streamline your workflow with powerful file-counting capabilities."
-version = "1.0.1"
+version = "1.0.2"
 license = {file = "LICENSE"}
 
 [project.urls]
