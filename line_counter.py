@@ -1,28 +1,32 @@
 import os
+import hashlib
+
+
 class DirectoryFileCounter():
     def __init__(self):
         pass
-    
+
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
-                "directory_path": ("STRING", {"default":""}),
+                "directory_path": ("STRING", {"default": ""}),
             },
         }
 
-    RETURN_TYPES = ("INT","FLOAT","STRING",)
+    RETURN_TYPES = ("INT", "FLOAT", "STRING",)
 
     FUNCTION = "execute_file_counter"
 
     CATEGORY = "🤖 CCTech/Files"
-    
+
     def execute_file_counter(self, directory_path: str) -> dict:
         # Expand environment variables in the directory path
         directory_path = os.path.expandvars(directory_path)
-        
+
         if not os.path.isdir(directory_path):
-            raise FileNotFoundError(f"The path '{directory_path}' does not exist.")
+            raise FileNotFoundError(
+                f"The path '{directory_path}' does not exist.")
 
         file_count = 0
 
@@ -33,30 +37,32 @@ class DirectoryFileCounter():
         count = file_count - 1
         return (count, float(count),  str(count))
 
+
 class TextFileLineCounter():
     def __init__(self):
         pass
-    
+
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
-                "file_path": ("STRING", {"default":""}),
+                "file_path": ("STRING", {"default": ""}),
             },
         }
 
-    RETURN_TYPES = ("INT","FLOAT","STRING",)
+    RETURN_TYPES = ("INT", "FLOAT", "STRING",)
 
     FUNCTION = "execute_line_counter"
 
     CATEGORY = "🤖 CCTech/Files"
-    
+
     def execute_line_counter(self, file_path: str) -> dict:
         # Expand environment variables in the file path
         file_path = os.path.expandvars(file_path)
-        
+
         if not os.path.isfile(file_path):
-            raise FileNotFoundError(f"The file at path '{file_path}' does not exist.")
+            raise FileNotFoundError(
+                f"The file at path '{file_path}' does not exist.")
         with open(file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
         line_count = len([line for line in lines if line.strip() != ""]) - 1
@@ -117,17 +123,84 @@ class SimpleNumberCounter:
 
         result = int(counter) if number_type == 'integer' else float(counter)
 
-        return ( result, float(counter), int(counter) )
+        return (result, float(counter), int(counter))
+
+
+TEXT_TYPE = "STRING"
+
+
+class TextFileLineReader:
+    # Class-level variable to keep track of the current line index
+    current_index = 0
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "file_path": ("STRING", {"default": ''}),
+                # Add mode input
+                "mode": (["automatic", "index"], {"default": "automatic"}),
+                # Add index input
+                "index": ("INT", {"default": 0, "min": 0, "step": 1}),
+            },
+        }
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        return float("NaN")
+
+    RETURN_TYPES = (TEXT_TYPE,)
+    RETURN_NAMES = ("line_text",)
+    FUNCTION = "read_line"
+
+    CATEGORY = "🤖 CCTech/Files"
+
+    def read_line(self, file_path: str, mode: str, index: int):
+        # Expand environment variables in the file path
+        file_path = os.path.expandvars(file_path)
+
+        # Check if the file exists
+        if not os.path.isfile(file_path):
+            raise FileNotFoundError(
+                f"The file at path '{file_path}' does not exist.")
+
+        # Read all lines from the file
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = [line.strip()
+                     for line in file if line.strip()]  # Skip empty lines
+
+        # If there are no lines, return an empty string
+        if not lines:
+            return ("",)
+
+        # Handle the mode and index
+        if mode == "index":
+            # Use the provided index directly
+            if index < 0 or index >= len(lines):
+                print(f"Invalid line index `{index}`. Using index 0.")
+                index = 0
+            line_text = lines[index]
+        else:
+            # Automatic mode: use the current_index and increment it
+            line_text = lines[self.current_index % len(lines)]
+            self.current_index += 1  # Increment the index for the next run
+
+        return (line_text,)
 
 
 NODE_CLASS_MAPPINGS = {
-"Text File Line Counter": TextFileLineCounter,
-"Directory File Counter": DirectoryFileCounter,
-"Simple Number Counter": SimpleNumberCounter
+    "Text File Line Counter": TextFileLineCounter,
+    "Directory File Counter": DirectoryFileCounter,
+    "Simple Number Counter": SimpleNumberCounter,
+    "Text File Line Reader": TextFileLineReader
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-"Text File Line Counter": "Text File Line Counter ⏲️",
-"Directory File Counter": "Directory File Counter ⏲️",
-"Simple Number Counter": "Simple Number Counter ⏲️"
+    "Text File Line Counter": "Text File Line Counter ⏲️",
+    "Directory File Counter": "Directory File Counter ⏲️",
+    "Simple Number Counter": "Simple Number Counter ⏲️",
+    "Text File Line Reader": "Text File Line Reader ⏲️"
 }
