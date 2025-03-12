@@ -180,12 +180,15 @@ class TextFileLineReader:
         if mode == "index":
             # Use the provided index directly
             if index < 0 or index >= len(lines):
-                print(f"Invalid line index `{index}`. Using index 0.")
-                index = 0
+                print(f"Index `{index}` is out of bounds. Resetting to 0.")
+                index = 0  # Reset to 0 if out of bounds
             line_text = lines[index]
         else:
             # Automatic mode: use the current_index and increment it
-            line_text = lines[self.current_index % len(lines)]
+            if self.current_index >= len(lines):
+                print("Reached the end of the file. Resetting to 0.")
+                self.current_index = 0  # Reset to 0 if at the end
+            line_text = lines[self.current_index]
             self.current_index += 1  # Increment the index for the next run
 
         return (line_text,)
