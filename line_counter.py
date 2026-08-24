@@ -84,7 +84,9 @@ class SimpleNumberCounter:
                 "step": ("FLOAT", {"default": 1, "min": 0, "max": 99999, "step": 0.01}),
             },
             "optional": {
-                "reset_bool": ("NUMBER",),
+                "reset_bool": ("BOOLEAN", {"default": False,
+                                           "label_on": "Reset",
+                                           "label_off": "Off"}),
             },
             "hidden": {
                 "unique_id": "UNIQUE_ID",
@@ -101,13 +103,13 @@ class SimpleNumberCounter:
 
     CATEGORY = "🤖 CCTech/Utilities"
 
-    def increment_number(self, number_type, mode, start, stop, step, unique_id, reset_bool=0):
+    def increment_number(self, number_type, mode, start, stop, step, unique_id, reset_bool=False):
 
         counter = int(start) if number_type == 'integer' else start
         if unique_id in self.counters:
             counter = self.counters[unique_id]
 
-        if round(reset_bool) >= 1:
+        if reset_bool:
             counter = start
         elif mode == 'increment':
             counter += step
