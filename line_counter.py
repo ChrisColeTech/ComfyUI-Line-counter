@@ -80,9 +80,7 @@ class SimpleNumberCounter:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "reset_bool": ("BOOLEAN", {"default": False,
-                                           "label_on": "Reset",
-                                           "label_off": "Off"}),
+                "reset_bool": ("BOOLEAN", {"default": False}),
                 "number_type": (["integer", "float"],),
                 "mode": (["increment", "decrement", "increment_to_stop", "decrement_to_stop"],),
                 "start": ("FLOAT", {"default": 0, "min": -18446744073709551615, "max": 18446744073709551615, "step": 0.01}),
