@@ -103,16 +103,15 @@ class SimpleNumberCounter:
 
     def increment_number(self, number_type, mode, start, stop, step, unique_id, reset_bool=0):
 
-        counter = int(start) if mode == 'integer' else start
-        if self.counters.__contains__(unique_id):
+        counter = int(start) if number_type == 'integer' else start
+        if unique_id in self.counters:
             counter = self.counters[unique_id]
 
         if round(reset_bool) >= 1:
             counter = start
-
-        if mode == 'increment':
+        elif mode == 'increment':
             counter += step
-        elif mode == 'deccrement':
+        elif mode == 'decrement':
             counter -= step
         elif mode == 'increment_to_stop':
             counter = counter + step if counter < stop else counter
