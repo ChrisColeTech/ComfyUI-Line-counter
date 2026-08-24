@@ -3,6 +3,7 @@ import hashlib
 
 
 class DirectoryFileCounter():
+    SEARCH_ALIASES = ['count files', 'file count', 'directory count', 'number of files']
     def __init__(self):
         pass
 
@@ -39,6 +40,7 @@ class DirectoryFileCounter():
 
 
 class TextFileLineCounter():
+    SEARCH_ALIASES = ['count lines', 'line count', 'text file lines']
     def __init__(self):
         pass
 
@@ -70,6 +72,7 @@ class TextFileLineCounter():
 
 
 class SimpleNumberCounter:
+    SEARCH_ALIASES = ['counter', 'increment', 'decrement', 'number counter', 'index counter']
     def __init__(self):
         self.counters = {}
 
@@ -131,6 +134,7 @@ TEXT_TYPE = "STRING"
 
 
 class TextFileLineReader:
+    SEARCH_ALIASES = ['read line', 'read text file', 'sequential text', 'line reader', 'read prompts']
     # Class-level variable to keep track of the current line index
     current_index = 0
 
