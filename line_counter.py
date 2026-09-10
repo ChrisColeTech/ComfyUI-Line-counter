@@ -1,5 +1,6 @@
 import os
 import hashlib
+import random
 
 
 class DirectoryFileCounter():
@@ -72,7 +73,7 @@ class TextFileLineCounter():
 
 
 class SimpleNumberCounter:
-    SEARCH_ALIASES = ['counter', 'increment', 'decrement', 'number counter', 'index counter']
+    SEARCH_ALIASES = ['counter', 'increment', 'decrement', 'randomize', 'number counter', 'index counter']
     def __init__(self):
         self.counters = {}
 
@@ -82,7 +83,7 @@ class SimpleNumberCounter:
             "required": {
                 "reset_bool": ("BOOLEAN", {"default": False}),
                 "number_type": (["integer", "float"],),
-                "mode": (["increment", "decrement", "increment_to_stop", "decrement_to_stop"],),
+                "mode": (["increment", "decrement", "increment_to_stop", "decrement_to_stop", "randomize"],),
                 "start": ("FLOAT", {"default": 0, "min": -18446744073709551615, "max": 18446744073709551615, "step": 0.01}),
                 "stop": ("FLOAT", {"default": 0, "min": -18446744073709551615, "max": 18446744073709551615, "step": 0.01}),
                 "step": ("FLOAT", {"default": 1, "min": 0, "max": 99999, "step": 0.01}),
@@ -118,6 +119,15 @@ class SimpleNumberCounter:
             counter = counter + step if counter < stop else counter
         elif mode == 'decrement_to_stop':
             counter = counter - step if counter > stop else counter
+        elif mode == 'randomize':
+            lo, hi = (start, stop) if start <= stop else (stop, start)
+            if number_type == 'integer':
+                a, b = int(lo), int(hi)
+                if a > b:
+                    a, b = b, a
+                counter = random.randint(a, b)
+            else:
+                counter = random.uniform(lo, hi)
 
         self.counters[unique_id] = counter
 
